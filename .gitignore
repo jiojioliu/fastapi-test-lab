@@ -1,0 +1,12 @@
+.venv/
+.tools/
+.uv-cache/
+.uv-python/
+__pycache__/
+.pytest_cache/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/testlab-tests.db
+*.log
+

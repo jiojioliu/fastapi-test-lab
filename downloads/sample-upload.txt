@@ -1,0 +1,6 @@
+FastAPI Test Lab upload sample
+==============================
+
+Use this file with POST /api/lab/upload.
+The endpoint returns the file size and SHA-256 digest without storing the upload.
+

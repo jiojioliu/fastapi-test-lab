@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071116">
+  <title>Northstar Goods · 账户登录</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/theme.css">
+</head>
+<body>
+  <section class="auth-shell" id="auth-shell" aria-labelledby="auth-heading">
+    <div class="auth-story">
+      <div class="brand auth-brand">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div>
+          <strong>NORTHSTAR GOODS</strong>
+          <small>EVERYDAY ESSENTIALS</small>
+        </div>
+      </div>
+      <div class="auth-story-content">
+        <span class="auth-kicker">MEMBER ACCESS / 2026</span>
+        <h1 id="auth-heading">登录你的账户，<br><span>继续发现日常好物。</span></h1>
+        <p>查看商品、保存购物车并随时追踪订单。登录后，所有属于你的偏好与购物记录都会回到原来的位置。</p>
+        <div class="auth-role-map" aria-label="商城服务说明">
+          <div class="auth-role-line">
+            <span class="role-index">01</span>
+            <div><strong>精选商品</strong><small>按分类浏览与快速搜索</small></div>
+            <span class="role-state">DISCOVER</span>
+          </div>
+          <div class="auth-role-line">
+            <span class="role-index">02</span>
+            <div><strong>专属购物车</strong><small>跨设备保存你的选择</small></div>
+            <span class="role-state accent">MY CART</span>
+          </div>
+          <div class="auth-role-line">
+            <span class="role-index">03</span>
+            <div><strong>订单追踪</strong><small>查看历史订单与当前状态</small></div>
+            <span class="role-state">MY ORDERS</span>
+          </div>
+        </div>
+      </div>
+      <div class="auth-story-foot">
+        <span><i class="status-led"></i>SECURE ACCOUNT ACCESS</span>
+        <span>NORTHSTAR GOODS · 2026</span>
+      </div>
+    </div>
+
+    <div class="auth-workbench">
+      <div class="auth-card">
+        <div class="auth-card-head">
+          <div>
+            <span class="eyebrow">WELCOME BACK</span>
+            <h2 id="auth-card-title">登录账户</h2>
+          </div>
+          <span class="auth-secure-mark" aria-label="受保护入口">
+            <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3M12 14v2"/></svg>
+          </span>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="登录或注册">
+          <button class="auth-tab active" id="auth-login-tab" data-auth-tab="login" role="tab" aria-selected="true">登录</button>
+          <button class="auth-tab" id="auth-register-tab" data-auth-tab="register" role="tab" aria-selected="false">创建账户</button>
+        </div>
+
+        <form class="auth-form" id="auth-login-form" autocomplete="on">
+          <label>用户名
+            <input name="username" value="customer" autocomplete="username" required minlength="3">
+          </label>
+          <label>密码
+            <input name="password" type="password" value="customer123" autocomplete="current-password" required minlength="6">
+          </label>
+          <p class="form-error" id="auth-login-error" hidden></p>
+          <button class="button primary full" type="submit">登录</button>
+        </form>
+
+        <form class="auth-form" id="auth-register-form" autocomplete="on" hidden>
+          <div class="auth-form-grid">
+            <label>显示名称
+              <input name="display_name" placeholder="例如：林澈" maxlength="48">
+            </label>
+            <label>用户名
+              <input name="username" placeholder="letters_numbers" autocomplete="username" required minlength="3" maxlength="32" pattern="[A-Za-z0-9_.-]+">
+            </label>
+          </div>
+          <label>密码
+            <input name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="至少 8 个字符">
+          </label>
+          <label>确认密码
+            <input name="confirm_password" type="password" autocomplete="new-password" required minlength="8">
+          </label>
+          <p class="form-error" id="auth-register-error" hidden></p>
+          <button class="button primary full" type="submit">创建账户</button>
+          <p class="auth-form-note">注册即表示你同意商城的账户与订单服务条款。</p>
+        </form>
+
+        <div class="auth-divider"><span>或使用受限入口</span></div>
+        <button class="button guest-entry full" id="guest-entry-button" type="button">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20c.4-4 2.4-6 6-6s5.6 2 6 6"/></svg>
+          游客浏览
+        </button>
+        <p class="form-error" id="guest-entry-error" hidden></p>
+
+        <div class="auth-demo">
+          <span class="auth-demo-label">QUICK DEMO ACCESS</span>
+          <div class="auth-demo-grid">
+            <button type="button" data-demo-user="customer" data-demo-password="customer123">客户账号</button>
+            <button type="button" data-demo-user="admin" data-demo-password="admin123">管理员</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div>
+          <strong id="brand-name">NORTHSTAR</strong>
+          <small id="brand-subtitle">ONLINE STORE</small>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-view="overview" data-test-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>运行概览</span>
+        </button>
+        <button class="nav-item" data-view="console" data-test-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
+          <span>API 控制台</span>
+        </button>
+        <button class="nav-item" data-view="catalog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4zM8 7V4h8v3M8 11h8M8 15h5"/></svg>
+          <span>商品目录</span>
+        </button>
+        <button class="nav-item" data-view="orders" data-commerce-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
+          <span>订单工作台</span>
+          <span class="nav-count" id="cart-nav-count" hidden>0</span>
+        </button>
+        <button class="nav-item" data-view="lab" data-test-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 001.8 3h10.4a2 2 0 001.8-3l-5-9V3M8 15h8"/></svg>
+          <span>网络实验室</span>
+        </button>
+        <button class="nav-item" data-view="guides" data-guide-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a3 3 0 013-3h13v18H7a3 3 0 00-3 3V5zM4 20V5M8 7h8M8 11h6"/></svg>
+          <span>工具指南</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-tools" data-guide-only>
+        <span class="sidebar-label">QUICK LINKS</span>
+        <a href="/docs" target="_blank" rel="noreferrer">
+          <span>Swagger API 文档</span><span>↗</span>
+        </a>
+        <a href="/redoc" target="_blank" rel="noreferrer">
+          <span>ReDoc 文档</span><span>↗</span>
+        </a>
+        <a href="/downloads/postman-collection">
+          <span>下载 Postman 集合</span><span>↓</span>
+        </a>
+      </div>
+
+      <div class="node-status">
+        <span class="pulse-dot" id="sidebar-status-dot"></span>
+        <div>
+          <strong id="sidebar-status">正在连接</strong>
+          <small>127.0.0.1:8000</small>
+        </div>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" aria-label="打开菜单">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="page-heading">
+          <span id="page-eyebrow">LOCAL SERVICE / LIVE</span>
+          <h1 id="page-title">运行概览</h1>
+        </div>
+        <div class="top-actions">
+          <div class="live-chip"><span class="pulse-dot"></span><span id="live-label">LIVE</span></div>
+          <button class="account-chip" id="account-button">
+            <span class="avatar" id="account-avatar">G</span>
+            <span id="account-label">访客</span>
+            <span class="role-badge" id="account-role">GUEST</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="view active" id="view-overview" data-title="运行概览" data-eyebrow="LOCAL SERVICE / LIVE">
+          <div class="hero-grid">
+            <div class="hero-card">
+              <div class="hero-content">
+                <span class="eyebrow"><span class="eyebrow-line"></span>READY FOR TRAFFIC</span>
+                <h2>从一次请求，<br>到完整流量观察。</h2>
+                <p>一个可安全演练的本地 API 环境。用 Postman 调试、JMeter 加压、Burp 捕获请求，再用 Wireshark 检查协议细节。</p>
+                <div class="hero-actions">
+                  <button class="button primary" data-go="console">
+                    发送第一个请求
+                    <span>→</span>
+                  </button>
+                  <a class="button ghost" href="/docs" target="_blank" rel="noreferrer">查看接口文档 ↗</a>
+                </div>
+              </div>
+              <div class="hero-terminal" aria-label="快速开始终端示例">
+                <div class="terminal-bar">
+                  <span></span><span></span><span></span>
+                  <small>quick-start.sh</small>
+                </div>
+                <pre><span class="code-muted">$</span> curl http://127.0.0.1:8000/api/health
+
+<span class="code-green">{</span>
+  <span class="code-key">"status"</span>: <span class="code-value">"healthy"</span>,
+  <span class="code-key">"version"</span>: <span class="code-value">"1.0.0"</span>
+<span class="code-green">}</span>
+
+<span class="code-muted"># 管理员测试账户：admin / admin123</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card">
+              <div class="metric-heading"><span>总请求数</span><span class="metric-icon cyan">↯</span></div>
+              <strong id="metric-total">0</strong>
+              <small>当前会话累计</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>近一分钟</span><span class="metric-icon green">↗</span></div>
+              <strong id="metric-rpm">0</strong>
+              <small><span id="metric-rps">0.00</span> req/s</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>P95 延迟</span><span class="metric-icon orange">◷</span></div>
+              <strong><span id="metric-p95">0</span><span class="unit">ms</span></strong>
+              <small>P99 <span id="metric-p99">0</span> ms</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>错误率</span><span class="metric-icon red">!</span></div>
+              <strong><span id="metric-errors">0.00</span><span class="unit">%</span></strong>
+              <small><span id="metric-active">0</span> 个活跃请求</small>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel chart-panel">
+              <div class="panel-heading">
+                <div><span class="eyebrow">REQUEST VOLUME</span><h3>请求流量</h3></div>
+                <div class="legend"><span><i class="legend-dot total"></i>请求</span><span><i class="legend-dot error"></i>错误</span></div>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="traffic-chart"></canvas>
+                <div class="empty-chart" id="chart-empty">发送请求后，这里会显示最近 60 秒流量</div>
+              </div>
+            </article>
+
+            <article class="panel status-panel">
+              <div class="panel-heading">
+                <div><span class="eyebrow">RESPONSE MIX</span><h3>状态分布</h3></div>
+                <button class="text-button" id="clear-traffic">清空</button>
+              </div>
+              <div class="donut-wrap">
+                <canvas id="status-chart"></canvas>
+                <div class="donut-center"><strong id="status-total">0</strong><small>REQUESTS</small></div>
+              </div>
+              <div class="status-legend" id="status-legend">
+                <span><i class="legend-dot ok"></i>2xx <b>0</b></span>
+                <span><i class="legend-dot redirect"></i>3xx <b>0</b></span>
+                <span><i class="legend-dot client"></i>4xx <b>0</b></span>
+                <span><i class="legend-dot server"></i>5xx <b>0</b></span>
+              </div>
+            </article>
+          </div>
+
+          <article class="panel recent-panel">
+            <div class="panel-heading">
+              <div><span class="eyebrow">LIVE REQUEST STREAM</span><h3>最近请求</h3></div>
+              <span class="auto-refresh"><span class="pulse-dot"></span>每 2.5 秒自动刷新</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>时间</th><th>方法</th><th>路径</th><th>状态</th><th>耗时</th><th>Request ID</th></tr></thead>
+                <tbody id="recent-requests">
+                  <tr class="empty-row"><td colspan="6">还没有请求记录。打开 API 控制台开始测试。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="view" id="view-console" data-title="API 控制台" data-eyebrow="REQUEST BUILDER / RAW">
+          <div class="section-intro">
+            <div><span class="eyebrow">INTERACTIVE REQUEST RUNNER</span><h2>组装、发送、检查</h2><p>像使用轻量 Postman 一样调试接口。登录后 token 会自动附加到后续请求。</p></div>
+            <span class="auth-state" id="console-auth-state">未登录 · 公开接口可用</span>
+          </div>
+
+          <div class="console-layout">
+            <article class="panel request-panel">
+              <div class="panel-heading compact">
+                <h3>请求</h3>
+                <select id="preset-select" class="compact-select" aria-label="请求示例">
+                  <option value="">选择请求示例</option>
+                  <option value="health">健康检查</option>
+                  <option value="products">商品搜索</option>
+                  <option value="login">账号登录</option>
+                  <option value="orders">读取订单</option>
+                  <option value="create-order">创建订单</option>
+                  <option value="echo">回显请求</option>
+                  <option value="slow">模拟慢响应</option>
+                  <option value="status500">模拟 500 错误</option>
+                  <option value="upload">上传示例</option>
+                </select>
+              </div>
+              <div class="request-line">
+                <select id="request-method" class="method-select" aria-label="HTTP 方法">
+                  <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option>
+                </select>
+                <input id="request-path" value="/api/health" spellcheck="false" aria-label="请求路径">
+                <button class="button primary send-button" id="send-request">发送 <span>⌘↩</span></button>
+              </div>
+
+              <div class="editor-tabs" role="tablist">
+                <button class="editor-tab active" data-editor="body">Body</button>
+                <button class="editor-tab" data-editor="headers">Headers</button>
+              </div>
+              <div class="editor-pane active" data-pane="body">
+                <div class="editor-meta"><span>JSON</span><span id="body-size">0 bytes</span></div>
+                <textarea id="request-body" spellcheck="false" placeholder="请求体（JSON）"></textarea>
+              </div>
+              <div class="editor-pane" data-pane="headers">
+                <div class="editor-meta"><span>JSON object</span><span>Authorization 会自动添加</span></div>
+                <textarea id="request-headers" spellcheck="false">{}</textarea>
+              </div>
+              <div class="request-foot">
+                <span><i class="keyboard-key">⌘</i><i class="keyboard-key">↵</i> 发送请求</span>
+                <button class="text-button" id="copy-curl">复制为 cURL</button>
+              </div>
+            </article>
+
+            <article class="panel response-panel">
+              <div class="panel-heading compact">
+                <h3>响应</h3>
+                <div class="response-meta">
+                  <span class="status-pill idle" id="response-status">WAITING</span>
+                  <span id="response-time">—</span>
+                </div>
+              </div>
+              <div class="response-info" id="response-info">
+                <span>选择示例或输入路径</span>
+                <span>响应会显示在这里</span>
+              </div>
+              <pre class="response-body" id="response-body"><span class="response-placeholder">⌁</span>
+准备接收来自 FastAPI 的响应。</pre>
+            </article>
+          </div>
+
+          <div class="tip-strip">
+            <span class="tip-icon">i</span>
+            <p><strong>练习提示</strong> 在控制台登录后，Authorization 请求头会自动添加。也可以复制 cURL，在 Burp Repeater 或 Postman 中继续修改。</p>
+          </div>
+        </section>
+
+        <section class="view" id="view-catalog" data-title="商品目录" data-eyebrow="REST / PAGINATION / SEARCH">
+          <div class="section-intro">
+            <div><span class="eyebrow">SAMPLE COMMERCE DATA</span><h2>商品目录</h2><p>共 12 个商品，支持搜索、分类、排序和分页。可加入购物车后创建受保护订单。</p></div>
+            <span class="data-source"><span class="pulse-dot"></span>Live SQLite</span>
+          </div>
+
+          <div class="catalog-toolbar">
+            <label class="search-field">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
+              <input id="catalog-search" placeholder="搜索名称、SKU 或描述" aria-label="搜索商品">
+            </label>
+            <select id="catalog-category" aria-label="商品分类"><option value="">全部分类</option></select>
+            <select id="catalog-sort" aria-label="排序">
+              <option value="name">名称排序</option>
+              <option value="rating">评分最高</option>
+              <option value="price_asc">价格从低到高</option>
+              <option value="price_desc">价格从高到低</option>
+              <option value="newest">最新加入</option>
+            </select>
+          </div>
+          <div class="catalog-grid" id="catalog-grid">
+            <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-orders" data-title="订单工作台" data-eyebrow="AUTH / IDEMPOTENCY / OWNERSHIP">
+          <div class="section-intro">
+            <div><span class="eyebrow">AUTHENTICATED WORKFLOW</span><h2>订单工作台</h2><p>验证 Bearer JWT、用户数据隔离、库存扣减与 Idempotency-Key 重放行为。</p></div>
+            <span class="auth-state" id="orders-auth-state">需要登录</span>
+          </div>
+
+          <div class="order-layout">
+            <article class="panel cart-panel order-cart-panel">
+              <div class="panel-heading compact"><h3>我的购物车</h3><span id="cart-count-label">0 件商品</span></div>
+              <div id="cart-items" class="cart-items">
+                <div class="cart-empty"><span>◇</span><p>购物车为空</p><a href="#catalog">去商品目录看看</a></div>
+              </div>
+              <div class="cart-summary" id="cart-total-row" hidden>
+                <div><span>商品小计</span><strong id="cart-subtotal">¥0.00</strong></div>
+                <div><span>预计税费</span><strong id="cart-tax">¥0.00</strong></div>
+                <div class="cart-grand-total"><span>应付合计</span><strong id="cart-total">¥0.00</strong></div>
+              </div>
+              <button class="button primary full checkout-button" id="checkout-button" disabled>去结算</button>
+              <small class="secure-note">支持支付宝、微信支付与银行卡安全支付</small>
+            </article>
+
+            <aside class="panel checkout-guide-panel">
+              <span class="eyebrow">CHECKOUT FLOW</span>
+              <h3>三步完成购买</h3>
+              <ol class="checkout-steps">
+                <li><span>01</span><div><strong>确认商品</strong><small>核对商品数量与应付金额</small></div></li>
+                <li><span>02</span><div><strong>选择支付</strong><small>支付宝、微信或银行卡</small></div></li>
+                <li><span>03</span><div><strong>完成订单</strong><small>支付结果与订单状态同步</small></div></li>
+              </ol>
+              <div class="payment-brand-row" aria-label="支持的支付方式">
+                <span class="payment-brand alipay">支付宝</span>
+                <span class="payment-brand wechat">微信支付</span>
+                <span class="payment-brand bank">银行卡</span>
+              </div>
+              <p class="checkout-assurance"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.8-2.8 8.1-7 10-4.2-1.9-7-5.2-7-10V6zM9 12l2 2 4-4"/></svg>支付信息仅用于本地模拟，不会产生真实扣款。</p>
+            </aside>
+          </div>
+
+          <article class="panel orders-panel">
+            <div class="panel-heading">
+              <div><span class="eyebrow">ORDER HISTORY</span><h3>历史订单</h3></div>
+              <button class="text-button" id="refresh-orders">刷新</button>
+            </div>
+            <div id="orders-list" class="orders-list">
+              <div class="empty-block"><strong>登录后查看订单</strong><span>普通用户与管理员测试账户各自拥有独立订单数据</span></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="view" id="view-lab" data-title="网络实验室" data-eyebrow="FAILURE / LATENCY / OBSERVATION">
+          <div class="section-intro">
+            <div><span class="eyebrow">CONTROLLED FAILURE SCENARIOS</span><h2>网络实验室</h2><p>主动制造延迟、错误、限流和重定向，为 JMeter 断言、Burp 捕获和 Wireshark 过滤提供稳定素材。</p></div>
+            <span class="data-source amber">LOCAL ONLY</span>
+          </div>
+
+          <div class="lab-grid">
+            <article class="scenario-card" data-accent="cyan">
+              <span class="scenario-icon">⌁</span>
+              <h3>延迟响应</h3>
+              <p>调节固定延迟，验证响应时间断言与慢请求可视化。</p>
+              <label class="range-control"><span>延迟</span><input type="range" id="delay-range" min="0" max="3000" step="100" value="800"><output id="delay-output">800 ms</output></label>
+              <button class="scenario-button" data-lab-action="slow">发起请求 →</button>
+            </article>
+            <article class="scenario-card" data-accent="red">
+              <span class="scenario-icon">!</span>
+              <h3>随机故障</h3>
+              <p>按设定概率返回 500、502、503 或 429，用于重试策略练习。</p>
+              <label class="range-control"><span>失败率</span><input type="range" id="failure-range" min="0" max="100" step="5" value="30"><output id="failure-output">30%</output></label>
+              <div class="inline-control"><select id="failure-mode"><option value="500">500</option><option value="502">502</option><option value="503">503</option><option value="429">429</option></select><button class="scenario-button" data-lab-action="flaky">发起请求 →</button></div>
+            </article>
+            <article class="scenario-card" data-accent="orange">
+              <span class="scenario-icon">⊘</span>
+              <h3>速率限制</h3>
+              <p>10 秒内第 6 次请求返回 429，并附带标准限流响应头。</p>
+              <div class="code-inline">5 req / 10 sec</div>
+              <button class="scenario-button" data-lab-action="burst">连续触发 6 次 →</button>
+            </article>
+            <article class="scenario-card" data-accent="violet">
+              <span class="scenario-icon">↗</span>
+              <h3>重定向链</h3>
+              <p>从 /api/lab/redirect 返回 302，观察客户端是否跟随到 /docs。</p>
+              <div class="code-inline">302 Found</div>
+              <button class="scenario-button" data-lab-action="redirect">发起请求 →</button>
+            </article>
+            <article class="scenario-card" data-accent="blue">
+              <span class="scenario-icon">⇄</span>
+              <h3>请求回显</h3>
+              <p>回显请求头、查询参数、Body 与客户端地址，适合代理抓包对照。</p>
+              <div class="code-inline">ANY /api/lab/echo</div>
+              <button class="scenario-button" data-lab-action="echo">发起请求 →</button>
+            </article>
+            <article class="scenario-card" data-accent="green">
+              <span class="scenario-icon">↑</span>
+              <h3>文件上传</h3>
+              <p>以 multipart/form-data 上传小文件，并核对大小与 SHA-256。</p>
+              <form id="upload-form" class="file-control"><input type="file" id="upload-file" required><button class="scenario-button" type="submit">上传 →</button></form>
+            </article>
+          </div>
+
+          <article class="panel lab-output-panel">
+            <div class="panel-heading">
+              <div><span class="eyebrow">SCENARIO OUTPUT</span><h3>实验室输出</h3></div>
+              <div class="lab-actions">
+                <button class="text-button" id="clear-traffic-lab">清空流量数据</button>
+                <button class="text-button danger-text" id="reset-lab">重置全部数据</button>
+              </div>
+            </div>
+            <pre id="lab-output"><span class="response-placeholder">⌁</span>
+选择一个场景开始演练。</pre>
+          </article>
+        </section>
+
+        <section class="view" id="view-guides" data-title="工具指南" data-eyebrow="WORKFLOW / ARTIFACTS / FILTERS">
+          <div class="section-intro">
+            <div><span class="eyebrow">TOOLCHAIN PLAYBOOK</span><h2>四类工具，一条测试链路</h2><p>先按流程完成冒烟与功能测试，再逐步增加并发和网络观察。所有测试资产都可在本机直接使用。</p></div>
+          </div>
+
+          <section class="guide-progress-shell" aria-labelledby="guide-progress-title">
+            <div class="guide-progress-copy">
+              <div>
+                <span class="eyebrow">YOUR TRAINING PATH</span>
+                <h3 id="guide-progress-title">完成 4 个验证节点</h3>
+              </div>
+              <strong id="guide-progress-value">0 / 4</strong>
+            </div>
+            <div class="guide-progress-track" aria-hidden="true"><i id="guide-progress-fill"></i></div>
+            <div class="guide-progress-nodes">
+              <span data-guide-progress="postman"><b>01</b>功能验证</span>
+              <span data-guide-progress="jmeter"><b>02</b>基线压测</span>
+              <span data-guide-progress="burp"><b>03</b>请求拦截</span>
+              <span data-guide-progress="wireshark"><b>04</b>协议观察</span>
+            </div>
+          </section>
+
+          <div class="guide-workspace">
+            <aside class="guide-tool-index" aria-label="选择工具指南">
+              <span class="guide-index-label">TOOLS</span>
+              <button class="guide-tool-button active" data-guide-tool="postman">
+                <span class="tool-badge postman">P</span>
+                <span><strong>Postman</strong><small>功能与接口验证</small></span>
+                <i>01</i>
+              </button>
+              <button class="guide-tool-button" data-guide-tool="jmeter">
+                <span class="tool-badge jmeter">J</span>
+                <span><strong>JMeter</strong><small>并发与性能基线</small></span>
+                <i>02</i>
+              </button>
+              <button class="guide-tool-button" data-guide-tool="burp">
+                <span class="tool-badge burp">B</span>
+                <span><strong>Burp Suite</strong><small>代理与请求重放</small></span>
+                <i>03</i>
+              </button>
+              <button class="guide-tool-button" data-guide-tool="wireshark">
+                <span class="tool-badge wireshark">W</span>
+                <span><strong>Wireshark</strong><small>网络协议观察</small></span>
+                <i>04</i>
+              </button>
+              <div class="guide-index-note">
+                <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.8-2.8 8.1-7 10-4.2-1.9-7-5.2-7-10V6z"/></svg>
+                <span>全部操作仅面向本机测试环境</span>
+              </div>
+            </aside>
+
+            <section class="guide-detail-stack">
+              <article class="guide-detail active" data-guide-panel="postman">
+                <header class="guide-detail-head">
+                  <div><span class="eyebrow">01 / FUNCTIONAL TESTING</span><h3>先用 Postman 跑通完整业务链</h3><p>从登录、商品查询到创建订单，确认接口契约、鉴权与响应断言都符合预期。</p></div>
+                  <span class="guide-duration"><strong>8 min</strong><small>预计用时</small></span>
+                </header>
+                <div class="guide-meta-row">
+                  <span><b>前置条件</b>服务已启动</span>
+                  <span><b>账号</b>admin / admin123</span>
+                  <span><b>产出</b>无失败断言</span>
+                </div>
+                <div class="guide-step-list">
+                  <article class="guide-step">
+                    <span class="guide-step-number">01</span>
+                    <div><h4>导入集合并确认环境</h4><p>下载集合后导入 Postman，检查集合变量 <code>baseUrl</code> 是否为本地服务地址。</p></div>
+                    <a class="button ghost small" href="/downloads/postman-collection">下载集合</a>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">02</span>
+                    <div><h4>执行登录并保存 Token</h4><p>运行“Login and capture JWT”。成功后集合变量会自动保存 `access_token`。</p><div class="guide-command"><code>POST /api/auth/login</code><button data-copy-text="POST /api/auth/login">复制</button></div></div>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">03</span>
+                    <div><h4>用 Collection Runner 验证业务链</h4><p>按 Authentication → Catalog → Orders 的顺序执行，确认订单创建返回 `201`。</p></div>
+                  </article>
+                </div>
+                <div class="guide-result"><span>预期结果</span><p>所有请求通过测试断言，订单响应包含订单编号、金额和支付方式。</p></div>
+              </article>
+
+              <article class="guide-detail" data-guide-panel="jmeter" hidden>
+                <header class="guide-detail-head">
+                  <div><span class="eyebrow">02 / PERFORMANCE TESTING</span><h3>先做基线，再逐步增加并发</h3><p>使用随附 JMX 计划验证登录、商品查询、慢响应和订单创建在并发下的稳定性。</p></div>
+                  <span class="guide-duration"><strong>15 min</strong><small>预计用时</small></span>
+                </header>
+                <div class="guide-meta-row">
+                  <span><b>默认负载</b>8 线程 × 10 次</span>
+                  <span><b>首轮建议</b>1 线程 × 1 次</span>
+                  <span><b>产出</b>P95 与错误率</span>
+                </div>
+                <div class="guide-step-list">
+                  <article class="guide-step">
+                    <span class="guide-step-number">01</span>
+                    <div><h4>导入测试计划</h4><p>打开 `.jmx` 文件，确认 HTTP Request Defaults 中的主机和端口与本机服务一致。</p></div>
+                    <a class="button ghost small" href="/downloads/jmeter-plan">下载计划</a>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">02</span>
+                    <div><h4>先运行一轮冒烟基线</h4><p>将线程数设为 1、循环次数设为 1，确认每个断言全部通过，再调整负载。</p><div class="guide-command"><code>Threads 1 · Ramp-up 1s · Loop 1</code><button data-copy-text="Threads 1 · Ramp-up 1s · Loop 1">复制</button></div></div>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">03</span>
+                    <div><h4>加压并对照实时图表</h4><p>切回运行概览，观察 P95 延迟、错误率与请求曲线。异常时优先查看断言失败样本。</p></div>
+                  </article>
+                </div>
+                <div class="guide-result"><span>预期结果</span><p>基线无异常 5xx；加压后能明确说明吞吐量、P95 延迟和首个性能瓶颈。</p></div>
+              </article>
+
+              <article class="guide-detail" data-guide-panel="burp" hidden>
+                <header class="guide-detail-head">
+                  <div><span class="eyebrow">03 / PROXY INSPECTION</span><h3>在代理历史中定位一次真实请求</h3><p>通过 Burp 观察浏览器发出的登录与订单请求，再到 Repeater 中安全地修改和重放。</p></div>
+                  <span class="guide-duration"><strong>10 min</strong><small>预计用时</small></span>
+                </header>
+                <div class="guide-meta-row">
+                  <span><b>监听地址</b>127.0.0.1:8080</span>
+                  <span><b>目标</b>HTTP 明文流量</span>
+                  <span><b>产出</b>可重放请求</span>
+                </div>
+                <div class="guide-step-list">
+                  <article class="guide-step">
+                    <span class="guide-step-number">01</span>
+                    <div><h4>确认代理监听已开启</h4><p>在 Proxy → Proxy settings 中启用 listener，并用 Burp 内置浏览器访问本站。</p><div class="guide-command"><code>127.0.0.1:8080</code><button data-copy-text="127.0.0.1:8080">复制</button></div></div>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">02</span>
+                    <div><h4>筛选本地请求</h4><p>在 HTTP history 中按 Host 过滤，登录后找到 `/api/auth/login` 与 `/api/orders`。</p><div class="guide-command"><code>Host contains 127.0.0.1</code><button data-copy-text="Host contains 127.0.0.1">复制</button></div></div>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">03</span>
+                    <div><h4>发送到 Repeater 并观察响应</h4><p>确认 Authorization、Idempotency-Key 和 JSON Body，再修改支付方式或商品数量验证校验逻辑。</p></div>
+                  </article>
+                </div>
+                <div class="guide-result"><span>预期结果</span><p>能够从代理历史定位请求，并在 Repeater 中解释状态码、响应头和业务校验结果。</p></div>
+              </article>
+
+              <article class="guide-detail" data-guide-panel="wireshark" hidden>
+                <header class="guide-detail-head">
+                  <div><span class="eyebrow">04 / PACKET OBSERVATION</span><h3>用协议视角验证一次请求往返</h3><p>捕获本地回环流量，从 HTTP 请求行、响应头与 JSON Body 对照应用层日志。</p></div>
+                  <span class="guide-duration"><strong>12 min</strong><small>预计用时</small></span>
+                </header>
+                <div class="guide-meta-row">
+                  <span><b>接口</b>Npcap Loopback</span>
+                  <span><b>端口</b>8000</span>
+                  <span><b>产出</b>请求 ID 对照</span>
+                </div>
+                <div class="guide-step-list">
+                  <article class="guide-step">
+                    <span class="guide-step-number">01</span>
+                    <div><h4>选择回环接口并开始捕获</h4><p>Windows 通常需要 Npcap；选择 Adapter for loopback traffic capture 后开始抓包。</p></div>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">02</span>
+                    <div><h4>生成一条特征明确的请求</h4><p>在应用内执行请求回显，随后在 Wireshark 应用显示过滤器。</p><div class="guide-command"><code>tcp.port == 8000 &amp;&amp; http</code><button data-copy-text="tcp.port == 8000 && http">复制</button></div></div>
+                  </article>
+                  <article class="guide-step">
+                    <span class="guide-step-number">03</span>
+                    <div><h4>核对请求与响应</h4><p>展开 HTTP 流，对比路径、状态码、`X-Request-ID` 与响应 JSON，说明传输层和业务层的关系。</p></div>
+                  </article>
+                </div>
+                <div class="guide-result"><span>预期结果</span><p>能定位完整 HTTP 往返，并用 Request ID 将抓包结果与页面请求日志对应。</p></div>
+              </article>
+            </section>
+          </div>
+
+          <article class="panel guide-checklist">
+            <div class="panel-heading">
+              <div><span class="eyebrow">ACCEPTANCE CHECKLIST</span><h3>完成标准</h3></div>
+              <span class="guide-checklist-count" id="guide-checklist-count">0 / 4 已完成</span>
+            </div>
+            <div class="guide-check-grid">
+              <label><input type="checkbox" data-guide-check="postman"><span><strong>Postman 功能链通过</strong><small>登录、目录、订单均满足断言</small></span></label>
+              <label><input type="checkbox" data-guide-check="jmeter"><span><strong>JMeter 基线完成</strong><small>记录吞吐量、P95 与错误率</small></span></label>
+              <label><input type="checkbox" data-guide-check="burp"><span><strong>Burp 请求可重放</strong><small>定位鉴权头并解释重放结果</small></span></label>
+              <label><input type="checkbox" data-guide-check="wireshark"><span><strong>Wireshark 往返已核对</strong><small>使用 Request ID 对照应用日志</small></span></label>
+            </div>
+          </article>
+
+          <div class="workflow-strip">
+            <span><b>01</b>功能先行<br><small>确认接口正确</small></span>
+            <i>→</i>
+            <span><b>02</b>建立基线<br><small>记录正常性能</small></span>
+            <i>→</i>
+            <span><b>03</b>修改重放<br><small>观察边界行为</small></span>
+            <i>→</i>
+            <span><b>04</b>协议验证<br><small>对照网络与应用</small></span>
+          </div>
+
+          <article class="panel endpoint-panel">
+            <div class="panel-heading">
+              <div><span class="eyebrow">ENDPOINT MAP</span><h3>关键练习接口</h3></div>
+              <a class="text-button" href="/docs" target="_blank" rel="noreferrer">完整 OpenAPI ↗</a>
+            </div>
+            <div class="endpoint-table">
+              <div><span class="method get">GET</span><code>/api/health</code><p>健康检查与版本信息</p></div>
+              <div><span class="method post">POST</span><code>/api/auth/login</code><p>获取 Bearer JWT</p></div>
+              <div><span class="method get">GET</span><code>/api/products</code><p>分页、搜索、排序</p></div>
+              <div><span class="method post">POST</span><code>/api/orders</code><p>JWT、库存、幂等键</p></div>
+              <div><span class="method get">GET</span><code>/api/lab/slow</code><p>可调延迟响应</p></div>
+              <div><span class="method get">GET</span><code>/api/lab/status/500</code><p>指定状态码模拟</p></div>
+              <div><span class="method post">POST</span><code>/api/lab/upload</code><p>multipart 文件上传</p></div>
+              <div><span class="method any">ANY</span><code>/api/lab/echo</code><p>完整请求回显</p></div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>FastAPI Test Lab v1.0 · 仅用于本机学习与测试</span>
+        <span>FastAPI · SQLite · Vanilla JS</span>
+      </footer>
+    </div>
+  </div>
+
+  <dialog id="account-dialog" class="dialog">
+    <div class="dialog-head">
+      <div><span class="eyebrow">ACTIVE SESSION</span><h2>当前账户</h2></div>
+      <button class="icon-button" id="close-account-dialog" aria-label="关闭">×</button>
+    </div>
+    <div class="dialog-profile">
+      <span class="avatar large" id="dialog-profile-avatar">G</span>
+      <div>
+        <strong id="dialog-profile-name">访客用户</strong>
+        <small id="dialog-profile-username">guest</small>
+      </div>
+      <span class="role-badge guest" id="dialog-profile-role">GUEST</span>
+    </div>
+    <p class="dialog-permission" id="dialog-profile-permission">目录只读访问</p>
+    <button class="button ghost full" id="dialog-logout-button">退出登录</button>
+  </dialog>
+
+  <dialog id="payment-dialog" class="dialog payment-dialog">
+    <div id="payment-form-view">
+      <div class="dialog-head">
+        <div><span class="eyebrow">SECURE CHECKOUT</span><h2>确认订单并支付</h2></div>
+        <button class="icon-button" id="close-payment-dialog" aria-label="关闭支付窗口">×</button>
+      </div>
+      <div class="payment-summary">
+        <div><span>商品</span><strong id="payment-item-count">0 件</strong></div>
+        <div><span>应付金额</span><strong id="payment-total">¥0.00</strong></div>
+      </div>
+      <fieldset class="payment-methods">
+        <legend>选择支付方式</legend>
+        <label class="payment-option active">
+          <input type="radio" name="payment_method" value="alipay" checked>
+          <span class="payment-logo alipay">
+            <svg viewBox="0 0 24 24"><path d="M5 8h14M8 5h8M7 11c1.7 3.7 4.1 6.2 7.7 7.7M16.8 11c-1.4 3.3-4 5.8-7.7 7.7"/></svg>
+          </span>
+          <span class="payment-option-copy"><strong>支付宝</strong><small>使用支付宝账户安全支付</small></span>
+          <span class="payment-radio-mark"></span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment_method" value="wechat">
+          <span class="payment-logo wechat">
+            <svg viewBox="0 0 24 24"><path d="M4.5 10.5c0-2.8 2.7-5 6-5s6 2.2 6 5-2.7 5-6 5c-.7 0-1.4-.1-2-.3L5.2 16l.9-2.1a4.8 4.8 0 01-1.6-3.4zM12.5 15c.2 2.2 2.3 4 4.9 4 .6 0 1.1-.1 1.6-.2l2.3 1.1-.7-1.8a3.7 3.7 0 001.2-2.7c0-2.2-2.1-4-4.7-4-2 0-3.8 1.1-4.6 2.7"/></svg>
+          </span>
+          <span class="payment-option-copy"><strong>微信支付</strong><small>使用微信扫码或免密支付</small></span>
+          <span class="payment-radio-mark"></span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment_method" value="bank_card">
+          <span class="payment-logo bank">
+            <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+          </span>
+          <span class="payment-option-copy"><strong>银行卡</strong><small>招商银行 ·•••• 8888</small></span>
+          <span class="payment-radio-mark"></span>
+        </label>
+      </fieldset>
+      <div class="payment-security-note">
+        <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.8-2.8 8.1-7 10-4.2-1.9-7-5.2-7-10V6zM9 12l2 2 4-4"/></svg>
+        <span>安全加密传输 · 本地模拟支付不会产生真实扣款</span>
+      </div>
+      <button class="button primary full payment-submit" id="confirm-payment-button">确认支付 ¥0.00</button>
+    </div>
+
+    <div class="payment-success" id="payment-success-view" hidden>
+      <span class="payment-success-icon">
+        <svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>
+      </span>
+      <span class="eyebrow">PAYMENT COMPLETE</span>
+      <h2>支付成功</h2>
+      <p>订单已确认，支付结果已经写入订单记录。</p>
+      <dl>
+        <div><dt>订单编号</dt><dd id="payment-success-order">—</dd></div>
+        <div><dt>支付方式</dt><dd id="payment-success-method">—</dd></div>
+        <div><dt>支付金额</dt><dd id="payment-success-total">¥0.00</dd></div>
+      </dl>
+      <button class="button primary full" id="payment-done-button">查看我的订单</button>
+    </div>
+  </dialog>
+
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
