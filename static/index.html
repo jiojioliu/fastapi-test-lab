@@ -135,10 +135,14 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4zM8 7V4h8v3M8 11h8M8 15h5"/></svg>
           <span>商品目录</span>
         </button>
+        <button class="nav-item" data-view="cart" data-commerce-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 10h10.8l2-7H6M9 20h.01M18 20h.01"/></svg>
+          <span>购物车</span>
+          <span class="nav-count" id="cart-nav-count" hidden>0</span>
+        </button>
         <button class="nav-item" data-view="orders" data-commerce-only>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
-          <span>订单工作台</span>
-          <span class="nav-count" id="cart-nav-count" hidden>0</span>
+          <span>我的订单</span>
         </button>
         <button class="nav-item" data-view="lab" data-test-only>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 001.8 3h10.4a2 2 0 001.8-3l-5-9V3M8 15h8"/></svg>
@@ -390,20 +394,11 @@
           </div>
         </section>
 
-        <section class="view" id="view-orders" data-title="订单工作台" data-eyebrow="AUTH / IDEMPOTENCY / OWNERSHIP">
+        <section class="view" id="view-cart" data-title="购物车" data-eyebrow="SHOPPING CART / CHECKOUT">
           <div class="section-intro">
-            <div><span class="eyebrow">AUTHENTICATED WORKFLOW</span><h2>订单工作台</h2><p>验证 Bearer JWT、用户数据隔离、库存扣减与 Idempotency-Key 重放行为。</p></div>
-            <span class="auth-state" id="orders-auth-state">需要登录</span>
+            <div><span class="eyebrow">SHOPPING CART</span><h2>购物车</h2><p>核对商品数量与应付金额，确认后选择支付方式完成结算。</p></div>
+            <span class="data-source"><span class="pulse-dot"></span>实时库存</span>
           </div>
-
-          <form class="order-search-form" id="order-search-form">
-            <label>
-              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
-              <input id="order-search-input" placeholder="输入订单编号查询，例如 ORD-SEED-CUSTOMER-0001" autocomplete="off">
-            </label>
-            <button class="button primary" type="submit">查询订单</button>
-            <span class="order-query-error" id="order-query-error" hidden></span>
-          </form>
 
           <div class="order-layout">
             <article class="panel cart-panel order-cart-panel">
@@ -436,10 +431,26 @@
               <p class="checkout-assurance"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.8-2.8 8.1-7 10-4.2-1.9-7-5.2-7-10V6zM9 12l2 2 4-4"/></svg>支付信息仅用于本地模拟，不会产生真实扣款。</p>
             </aside>
           </div>
+        </section>
+
+        <section class="view" id="view-orders" data-title="我的订单" data-eyebrow="ORDER HISTORY / SECURE">
+          <div class="section-intro">
+            <div><span class="eyebrow">ORDER HISTORY</span><h2>我的订单</h2><p>查询订单编号并进入独立详情页，查看支付信息、商品明细与配送进度。</p></div>
+            <span class="auth-state" id="orders-auth-state">需要登录</span>
+          </div>
+
+          <form class="order-search-form" id="order-search-form">
+            <label>
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
+              <input id="order-search-input" placeholder="输入订单编号，例如 ORD-SEED-CUSTOMER-0001" autocomplete="off">
+            </label>
+            <button class="button primary" type="submit">查询订单</button>
+            <span class="order-query-error" id="order-query-error" hidden></span>
+          </form>
 
           <article class="panel orders-panel">
             <div class="panel-heading">
-              <div><span class="eyebrow">ORDER HISTORY</span><h3>历史订单</h3></div>
+              <div><span class="eyebrow">ORDER RECORDS</span><h3>订单记录</h3></div>
               <button class="text-button" id="refresh-orders">刷新</button>
             </div>
             <div id="orders-list" class="orders-list">
@@ -858,7 +869,7 @@
         <div><dt>支付方式</dt><dd id="payment-success-method">—</dd></div>
         <div><dt>支付金额</dt><dd id="payment-success-total">¥0.00</dd></div>
       </dl>
-      <button class="button primary full" id="payment-done-button">查看我的订单</button>
+      <button class="button primary full" id="payment-done-button">返回购物车</button>
     </div>
   </dialog>
 

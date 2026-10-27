@@ -17,6 +17,10 @@ def test_dashboard_and_health(client: TestClient):
     assert orders_page.status_code == 200
     assert "order-detail-content" in orders_page.text
 
+    cart_page = client.get("/cart")
+    assert cart_page.status_code == 200
+    assert 'id="view-cart"' in cart_page.text
+
     order_page = client.get("/orders/ORD-SEED-CUSTOMER-0001")
     assert order_page.status_code == 200
     assert "order-detail-content" in order_page.text

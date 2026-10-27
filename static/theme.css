@@ -2329,7 +2329,8 @@ tbody tr:hover {
 
 /* Dedicated order lookup and detail page */
 .order-search-form {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 9px;
   margin-bottom: 14px;
@@ -2343,7 +2344,6 @@ tbody tr:hover {
   display: flex;
   height: 42px;
   min-width: 0;
-  flex: 1;
   align-items: center;
   gap: 9px;
   padding: 0 12px;
@@ -2376,13 +2376,18 @@ tbody tr:hover {
   font-size: 11px;
 }
 
+.order-search-form input::placeholder {
+  color: var(--text-tertiary);
+  opacity: 1;
+}
+
 .order-search-form .button {
   min-height: 42px;
   flex: 0 0 auto;
 }
 
 .order-query-error {
-  flex-basis: 100%;
+  grid-column: 1 / -1;
   color: var(--error);
   font-size: 10px;
 }
@@ -2643,8 +2648,11 @@ tbody tr:hover {
 
 @media (max-width: 620px) {
   .order-search-form {
-    align-items: stretch;
-    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+
+  .order-search-form .button {
+    width: 100%;
   }
 
   .order-detail-top {

@@ -50,7 +50,8 @@ const viewMetadata = {
   overview: ["运行概览", "LOCAL SERVICE / LIVE"],
   console: ["API 控制台", "REQUEST BUILDER / RAW"],
   catalog: ["商品目录", "REST / PAGINATION / SEARCH"],
-  orders: ["订单工作台", "AUTH / IDEMPOTENCY / OWNERSHIP"],
+  cart: ["购物车", "SHOPPING CART / CHECKOUT"],
+  orders: ["我的订单", "ORDER HISTORY / SECURE"],
   "order-detail": ["订单详情", "ORDER DETAILS / SECURE"],
   lab: ["网络实验室", "FAILURE / LATENCY / OBSERVATION"],
   guides: ["工具指南", "WORKFLOW / ARTIFACTS / FILTERS"],
@@ -239,11 +240,11 @@ function showView(viewName, updateHash = true) {
     toast("测试控制台与流量数据仅对管理员测试账户开放", "error");
   }
   if (
-    ["orders", "order-detail"].includes(nextView) &&
+    ["cart", "orders", "order-detail"].includes(nextView) &&
     state.user?.role === "guest"
   ) {
     nextView = "catalog";
-    toast("访客账户仅可浏览商品目录", "error");
+    toast("游客账户仅可浏览商品目录", "error");
   }
   if (nextView === "guides" && state.user?.role !== "admin") {
     nextView = canUseTestLab() ? "overview" : "catalog";
@@ -262,8 +263,8 @@ function showView(viewName, updateHash = true) {
   $("#page-eyebrow").textContent = eyebrow;
   $("#sidebar").classList.remove("open");
   if (updateHash) {
-    if (nextView === "orders") {
-      const target = "/orders";
+    if (nextView === "orders" || nextView === "cart") {
+      const target = nextView === "orders" ? "/orders" : "/cart";
       if (window.location.pathname !== target) {
         history.pushState({ view: nextView }, "", target);
       }
@@ -366,6 +367,9 @@ function routeFromLocation() {
   }
   if (window.location.pathname === "/orders" || window.location.pathname === "/orders/") {
     return { view: "orders" };
+  }
+  if (window.location.pathname === "/cart" || window.location.pathname === "/cart/") {
+    return { view: "cart" };
   }
   const hashView = window.location.hash.slice(1);
   return {
@@ -931,7 +935,9 @@ function updateAuthUI() {
   if (
     appIsVisible &&
     hideCommerce &&
-    $("#view-orders").classList.contains("active")
+    ["view-cart", "view-orders", "view-order-detail"].some((view) =>
+      $(`#${view}`).classList.contains("active"),
+    )
   ) {
     showView("catalog");
   }
@@ -1338,7 +1344,7 @@ function bindAuth() {
   $("#confirm-payment-button").addEventListener("click", confirmPayment);
   $("#payment-done-button").addEventListener("click", () => {
     $("#payment-dialog").close();
-    showView("orders");
+    showView("cart");
   });
   $$('input[name="payment_method"]').forEach((input) => {
     input.addEventListener("change", () => {

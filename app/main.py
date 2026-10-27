@@ -115,6 +115,11 @@ async def orders_page():
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/cart", include_in_schema=False)
+async def cart_page():
+    return FileResponse(STATIC_DIR / "index.html")
+
+
 @app.get("/orders/{order_id}", include_in_schema=False)
 async def order_detail_page(order_id: str):
     return FileResponse(STATIC_DIR / "index.html")
