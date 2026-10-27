@@ -396,6 +396,15 @@
             <span class="auth-state" id="orders-auth-state">需要登录</span>
           </div>
 
+          <form class="order-search-form" id="order-search-form">
+            <label>
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
+              <input id="order-search-input" placeholder="输入订单编号查询，例如 ORD-SEED-CUSTOMER-0001" autocomplete="off">
+            </label>
+            <button class="button primary" type="submit">查询订单</button>
+            <span class="order-query-error" id="order-query-error" hidden></span>
+          </form>
+
           <div class="order-layout">
             <article class="panel cart-panel order-cart-panel">
               <div class="panel-heading compact"><h3>我的购物车</h3><span id="cart-count-label">0 件商品</span></div>
@@ -437,6 +446,67 @@
               <div class="empty-block"><strong>登录后查看订单</strong><span>普通用户与管理员测试账户各自拥有独立订单数据</span></div>
             </div>
           </article>
+        </section>
+
+        <section class="view" id="view-order-detail" data-title="订单详情" data-eyebrow="ORDER DETAILS / SECURE">
+          <div class="order-detail-top">
+            <div>
+              <span class="eyebrow">ORDER RECORD</span>
+              <h2 id="order-detail-title">订单详情</h2>
+              <p id="order-detail-subtitle">正在读取订单信息…</p>
+            </div>
+            <button class="button ghost" id="order-detail-back">返回订单列表</button>
+          </div>
+
+          <div class="panel order-detail-error" id="order-detail-error" hidden>
+            <strong>未找到这笔订单</strong>
+            <p>请检查订单编号，或返回订单列表重新查询。</p>
+          </div>
+
+          <div id="order-detail-content" hidden>
+            <div class="order-detail-summary">
+              <article class="panel order-detail-card">
+                <span class="eyebrow">ORDER STATUS</span>
+                <div class="order-detail-primary">
+                  <strong id="order-detail-id">—</strong>
+                  <span class="order-status" id="order-detail-status">—</span>
+                </div>
+                <div class="order-detail-meta">
+                  <div><span>下单时间</span><strong id="order-detail-created">—</strong></div>
+                  <div><span>支付方式</span><strong id="order-detail-payment">—</strong></div>
+                  <div><span>支付状态</span><strong class="paid-state" id="order-detail-payment-status">已支付</strong></div>
+                </div>
+              </article>
+
+              <article class="panel order-timeline-card">
+                <span class="eyebrow">DELIVERY PROGRESS</span>
+                <ol class="order-timeline">
+                  <li class="complete"><span></span><div><strong>订单已创建</strong><small>支付信息已经确认</small></div></li>
+                  <li class="current"><span></span><div><strong>商家备货中</strong><small>正在准备你的商品</small></div></li>
+                  <li><span></span><div><strong>订单配送</strong><small>等待物流信息更新</small></div></li>
+                  <li><span></span><div><strong>交易完成</strong><small>确认收货后完成</small></div></li>
+                </ol>
+              </article>
+            </div>
+
+            <article class="panel order-detail-items-panel">
+              <div class="panel-heading">
+                <div><span class="eyebrow">ORDER ITEMS</span><h3>商品明细</h3></div>
+                <span class="order-detail-id-label" id="order-detail-id-label">—</span>
+              </div>
+              <div class="table-wrap">
+                <table class="order-detail-table">
+                  <thead><tr><th>商品</th><th>单价</th><th>数量</th><th>小计</th></tr></thead>
+                  <tbody id="order-detail-items"></tbody>
+                </table>
+              </div>
+              <div class="order-detail-totals">
+                <div><span>商品小计</span><strong id="order-detail-subtotal">¥0.00</strong></div>
+                <div><span>税费</span><strong id="order-detail-tax">¥0.00</strong></div>
+                <div><span>实付金额</span><strong id="order-detail-total">¥0.00</strong></div>
+              </div>
+            </article>
+          </div>
         </section>
 
         <section class="view" id="view-lab" data-title="网络实验室" data-eyebrow="FAILURE / LATENCY / OBSERVATION">

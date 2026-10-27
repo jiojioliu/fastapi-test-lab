@@ -110,6 +110,16 @@ async def dashboard():
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/orders", include_in_schema=False)
+async def orders_page():
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/orders/{order_id}", include_in_schema=False)
+async def order_detail_page(order_id: str):
+    return FileResponse(STATIC_DIR / "index.html")
+
+
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return Response(status_code=204)

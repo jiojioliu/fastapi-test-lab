@@ -48,6 +48,7 @@ Set-Location "D:\Documents\ChatGPT\fastapi-test-lab"
 - **API 控制台**：选择方法、路径、Headers、JSON Body 发请求，查看响应和 Request ID；登录后自动附带 Bearer JWT。
 - **商品目录**：搜索、分类、排序，加入购物车并创建受保护订单。
 - **订单工作台**：测试登录、用户数据隔离、库存扣减和 `Idempotency-Key`。
+- **独立订单页面**：订单列表使用 `/orders`；点击订单或按编号查询会进入 `/orders/{订单号}`，刷新后仍保持订单详情路由。
 - **结算与支付**：订单工作台不再重复展示账户信息；结算弹窗支持支付宝、微信支付与银行卡，并将支付方式和支付状态写入订单。
 - **网络实验室**：生成慢响应、随机故障、连续限流、302 重定向、请求回显和 multipart 上传。
 - **工具指南**：四类测试工具的具体操作入口和下载链接。
@@ -68,6 +69,7 @@ Set-Location "D:\Documents\ChatGPT\fastapi-test-lab"
 | `GET` | `/api/products/{id}` | 商品详情 |
 | `POST` | `/api/orders` | 创建订单（需 JWT） |
 | `GET` | `/api/orders` | 当前用户的订单（需 JWT） |
+| `GET` | `/api/orders/{id}` | 查询当前用户的一笔订单（需 JWT） |
 | `PATCH` | `/api/orders/{id}/status` | 修改状态（仅管理员） |
 | `GET` | `/api/lab/slow?delay_ms=1000` | 可调延迟 |
 | `GET` | `/api/lab/flaky?failure_rate=0.3&mode=500` | 随机失败 |

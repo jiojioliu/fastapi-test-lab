@@ -13,6 +13,14 @@ def test_dashboard_and_health(client: TestClient):
     assert "NORTHSTAR GOODS" in page.text
     assert 'id="app-shell" hidden' in page.text
 
+    orders_page = client.get("/orders")
+    assert orders_page.status_code == 200
+    assert "order-detail-content" in orders_page.text
+
+    order_page = client.get("/orders/ORD-SEED-CUSTOMER-0001")
+    assert order_page.status_code == 200
+    assert "order-detail-content" in order_page.text
+
     health = client.get("/api/health")
     assert health.status_code == 200
     assert health.json()["status"] == "healthy"

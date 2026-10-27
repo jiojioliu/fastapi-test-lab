@@ -17,6 +17,7 @@ const state = {
   catalogLoaded: false,
   healthTimer: null,
   trafficTimer: null,
+  currentOrderId: null,
 };
 
 const roleLabels = {
@@ -50,6 +51,7 @@ const viewMetadata = {
   console: ["API 控制台", "REQUEST BUILDER / RAW"],
   catalog: ["商品目录", "REST / PAGINATION / SEARCH"],
   orders: ["订单工作台", "AUTH / IDEMPOTENCY / OWNERSHIP"],
+  "order-detail": ["订单详情", "ORDER DETAILS / SECURE"],
   lab: ["网络实验室", "FAILURE / LATENCY / OBSERVATION"],
   guides: ["工具指南", "WORKFLOW / ARTIFACTS / FILTERS"],
 };
@@ -236,7 +238,10 @@ function showView(viewName, updateHash = true) {
     nextView = state.user.role === "guest" ? "catalog" : "orders";
     toast("测试控制台与流量数据仅对管理员测试账户开放", "error");
   }
-  if (nextView === "orders" && state.user?.role === "guest") {
+  if (
+    ["orders", "order-detail"].includes(nextView) &&
+    state.user?.role === "guest"
+  ) {
     nextView = "catalog";
     toast("访客账户仅可浏览商品目录", "error");
   }
@@ -247,15 +252,27 @@ function showView(viewName, updateHash = true) {
   $$(".view").forEach((view) => {
     view.classList.toggle("active", view.id === `view-${nextView}`);
   });
+  const activeNavView =
+    nextView === "order-detail" ? "orders" : nextView;
   $$(".nav-item").forEach((item) => {
-    item.classList.toggle("active", item.dataset.view === nextView);
+    item.classList.toggle("active", item.dataset.view === activeNavView);
   });
   const [title, eyebrow] = viewMetadata[nextView];
   $("#page-title").textContent = title;
   $("#page-eyebrow").textContent = eyebrow;
   $("#sidebar").classList.remove("open");
-  if (updateHash && window.location.hash !== `#${nextView}`) {
-    history.pushState(null, "", `#${nextView}`);
+  if (updateHash) {
+    if (nextView === "orders") {
+      const target = "/orders";
+      if (window.location.pathname !== target) {
+        history.pushState({ view: nextView }, "", target);
+      }
+    } else if (nextView !== "order-detail") {
+      const target = `/#${nextView}`;
+      if (window.location.pathname !== "/" || window.location.hash !== `#${nextView}`) {
+        history.pushState({ view: nextView }, "", target);
+      }
+    }
   }
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (nextView === "catalog" && !state.catalogLoaded) loadCatalog();
@@ -335,8 +352,44 @@ function bindNavigation() {
     }
   });
   window.addEventListener("popstate", () => {
-    showView(window.location.hash.slice(1) || "overview", false);
+    applyLocationRoute(false);
   });
+}
+
+function routeFromLocation() {
+  const detailMatch = window.location.pathname.match(/^\/orders\/([^/]+)\/?$/);
+  if (detailMatch) {
+    return {
+      view: "order-detail",
+      orderId: decodeURIComponent(detailMatch[1]),
+    };
+  }
+  if (window.location.pathname === "/orders" || window.location.pathname === "/orders/") {
+    return { view: "orders" };
+  }
+  const hashView = window.location.hash.slice(1);
+  return {
+    view: viewMetadata[hashView] ? hashView : "overview",
+  };
+}
+
+async function applyLocationRoute(updateUrl = false) {
+  const route = routeFromLocation();
+  if (route.view === "order-detail") {
+    await showOrderDetail(route.orderId, updateUrl);
+    return;
+  }
+  showView(route.view, updateUrl);
+}
+
+async function enterRequestedRoute() {
+  const route = routeFromLocation();
+  await enterApplication(
+    route.view === "order-detail" ? "orders" : route.view,
+  );
+  if (route.view === "order-detail" && state.user?.role !== "guest") {
+    await showOrderDetail(route.orderId, false);
+  }
 }
 
 async function refreshHealth() {
@@ -768,7 +821,7 @@ async function login(username, password, errorNode) {
     });
     if (!response.ok) throw new Error(data?.detail || "登录失败");
     saveSession(data);
-    await enterApplication();
+    await enterRequestedRoute();
     toast(`已登录为 ${data.user.display_name}`);
     return true;
   } catch (error) {
@@ -865,7 +918,9 @@ function updateAuthUI() {
     $("#dialog-profile-permission").textContent =
       roleDescriptions[state.user.role] || "受限访问";
   }
+  const appIsVisible = !$("#app-shell").hidden;
   if (
+    appIsVisible &&
     hideTestTools &&
     ["overview", "console", "lab"].some((view) =>
       $(`#view-${view}`).classList.contains("active"),
@@ -874,12 +929,17 @@ function updateAuthUI() {
     showView(state.user.role === "guest" ? "catalog" : "orders");
   }
   if (
+    appIsVisible &&
     hideCommerce &&
     $("#view-orders").classList.contains("active")
   ) {
     showView("catalog");
   }
-  if (hideGuides && $("#view-guides").classList.contains("active")) {
+  if (
+    appIsVisible &&
+    hideGuides &&
+    $("#view-guides").classList.contains("active")
+  ) {
     showView(canUseTestLab() ? "overview" : "catalog");
   }
   applyRoleBranding();
@@ -1034,10 +1094,114 @@ function renderOrders(orders) {
           <span class="order-payment-method">${escapeHtml(paymentLabels[order.payment_method] || order.payment_method)}</span>
           <span class="order-status">${escapeHtml(orderStatusLabels[order.status] || order.status)}</span>
           <span class="order-total">${formatMoney(order.total)}</span>
+          <button class="order-view-button" data-order-id="${escapeHtml(order.id)}">查看详情</button>
         </div>
       `;
     })
     .join("");
+  $$(".order-view-button", container).forEach((button) => {
+    button.addEventListener("click", () =>
+      showOrderDetail(button.dataset.orderId),
+    );
+  });
+}
+
+async function showOrderDetail(orderId, updateUrl = true) {
+  if (!state.user || state.user.role === "guest") {
+    showView("orders");
+    return;
+  }
+  const normalizedId = String(orderId || "").trim().toUpperCase();
+  if (!normalizedId) {
+    $("#order-query-error").textContent = "请输入订单编号";
+    $("#order-query-error").hidden = false;
+    return;
+  }
+  state.currentOrderId = normalizedId;
+  showView("order-detail", false);
+  $("#order-detail-error").hidden = true;
+  $("#order-detail-content").hidden = true;
+  $("#order-detail-title").textContent = "订单详情";
+  $("#order-detail-subtitle").textContent = "正在读取订单信息…";
+  if (updateUrl) {
+    history.pushState(
+      { view: "order-detail", orderId: normalizedId },
+      "",
+      `/orders/${encodeURIComponent(normalizedId)}`,
+    );
+  }
+  try {
+    const { response, data } = await request(
+      `/api/orders/${encodeURIComponent(normalizedId)}`,
+    );
+    if (!response.ok) throw new Error(data?.detail || "订单查询失败");
+    renderOrderDetail(data);
+  } catch (error) {
+    $("#order-detail-error").hidden = false;
+    $("#order-detail-subtitle").textContent = "无法读取订单";
+    toast(error.message, "error");
+  }
+}
+
+function renderOrderDetail(order) {
+  state.currentOrderId = order.id;
+  $("#order-query-error").hidden = true;
+  $("#order-detail-content").hidden = false;
+  $("#order-detail-error").hidden = true;
+  $("#order-detail-title").textContent = order.id;
+  $("#order-detail-subtitle").textContent = "订单记录与支付信息";
+  $("#order-detail-id").textContent = order.id;
+  $("#order-detail-id-label").textContent = order.id;
+  $("#order-detail-status").textContent =
+    orderStatusLabels[order.status] || order.status;
+  $("#order-detail-created").textContent = new Date(order.created_at).toLocaleString(
+    "zh-CN",
+    { hour12: false },
+  );
+  $("#order-detail-payment").textContent =
+    paymentLabels[order.payment_method] || order.payment_method;
+  $("#order-detail-payment-status").textContent =
+    order.payment_status === "paid" ? "已支付" : "待支付";
+  $("#order-detail-items").innerHTML = order.items
+    .map(
+      (item) => `
+        <tr>
+          <td><strong>${escapeHtml(item.product_name)}</strong></td>
+          <td>${formatMoney(item.unit_price)}</td>
+          <td>${item.quantity}</td>
+          <td>${formatMoney(item.line_total)}</td>
+        </tr>
+      `,
+    )
+    .join("");
+  $("#order-detail-subtotal").textContent = formatMoney(order.subtotal);
+  $("#order-detail-tax").textContent = formatMoney(order.tax);
+  $("#order-detail-total").textContent = formatMoney(order.total);
+  const stage = {
+    pending: 0,
+    confirmed: 1,
+    shipped: 2,
+    completed: 3,
+    cancelled: 0,
+  }[order.status] ?? 1;
+  $$(".order-timeline li").forEach((item, index) => {
+    item.classList.toggle("complete", index < stage);
+    item.classList.toggle("current", index === stage);
+  });
+}
+
+async function queryOrder(event) {
+  event.preventDefault();
+  const input = $("#order-search-input");
+  const error = $("#order-query-error");
+  error.hidden = true;
+  if (!input.value.trim()) {
+    error.textContent = "请输入订单编号";
+    error.hidden = false;
+    input.focus();
+    return;
+  }
+  await showOrderDetail(input.value.trim(), true);
 }
 
 function setAuthMode(mode) {
@@ -1088,7 +1252,7 @@ async function registerCustomer(event) {
       );
     }
     saveSession(data);
-    await enterApplication();
+    await enterRequestedRoute();
     toast(`账户 ${data.user.username} 已创建`);
   } catch (error) {
     errorNode.textContent = error.message;
@@ -1163,6 +1327,8 @@ function bindAuth() {
   $("#dialog-logout-button").addEventListener("click", logout);
   $("#checkout-button").addEventListener("click", checkout);
   $("#refresh-orders").addEventListener("click", loadOrders);
+  $("#order-search-form").addEventListener("submit", queryOrder);
+  $("#order-detail-back").addEventListener("click", () => showView("orders"));
   $("#close-payment-dialog").addEventListener("click", () =>
     $("#payment-dialog").close(),
   );
@@ -1549,10 +1715,7 @@ async function init() {
     showAuthGate();
     return;
   }
-  const requestedView = window.location.hash.slice(1);
-  await enterApplication(
-    viewMetadata[requestedView] ? requestedView : null,
-  );
+  await enterRequestedRoute();
 }
 
 init();
